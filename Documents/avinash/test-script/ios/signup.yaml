@@ -1,0 +1,15 @@
+appId: com.viralfission.app
+---
+- launchApp
+- tapOn: "Sign Up"
+- tapOn: "Email"
+- eraseText
+- inputText: "hixama8569@carteppp.com"
+- tapOn: "Password"
+- eraseText
+- inputText: "Production133!"
+- tapOn: "Re-enter Password"
+- inputText: "Production133!"
+- scroll
+- tapOn: "Create Account"
+

@@ -1,0 +1,9 @@
+appId: com.viralfission
+---
+- runFlow: login.yaml
+- tapOn:
+    id: "com.viralfission:id/navigation_bar_item_icon_view"
+    index: 3
+- scroll
+- scroll
+- tapOn: "Logout"

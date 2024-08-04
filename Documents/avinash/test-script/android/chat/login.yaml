@@ -1,0 +1,15 @@
+appId: com.viralfission
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: "com.viralfission:id/btnLogin"
+- tapOn: "Email address"
+- inputText: "kingravan81@gmail.com"
+- tapOn: "Password"
+- inputText: "Production1!"
+- hideKeyboard
+- tapOn:
+    id: "com.viralfission:id/btnLogin"
+- pressKey: home
+- launchApp
