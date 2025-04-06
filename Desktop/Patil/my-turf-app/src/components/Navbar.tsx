@@ -3,7 +3,10 @@ import { Link, useLocation } from "react-router-dom";
 const Navbar = () => {
   const location = useLocation();
 
-  const isActive = (path: string) => location.pathname.startsWith(path);
+  const isActive = (path: string) => {
+    return location.pathname.startsWith(path) || 
+           (path === "/explore" && location.pathname.includes("booking"));
+  };
 
   const getActiveClass = (path: string) => {
     return isActive(path)
@@ -32,6 +35,8 @@ const Navbar = () => {
               <Link
                 to="/tournaments"
                 className={getActiveClass("/tournaments")}
+                title="View Tournaments"
+                aria-current={isActive("/tournaments") ? "page" : undefined}
               >
                 Tournaments
               </Link>

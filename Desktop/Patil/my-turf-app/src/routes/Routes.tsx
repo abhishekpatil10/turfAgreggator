@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import MainLayout from "../layouts/MainLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Home from "../pages/Home";
@@ -13,10 +15,25 @@ import Register from "../pages/Register";
 import NotFound from "../pages/NotFound";
 import Membership from "../pages/Membership";
 import Tournaments from "../pages/tournaments";
+import Payment from "../pages/Payment";
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, [pathname]);
+
+  return null;
+};
 
 const AppRoutes = () => {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         {/* Public Pages */}
         <Route element={<MainLayout />}>
@@ -25,6 +42,7 @@ const AppRoutes = () => {
           <Route path="/membership" element={<Membership />} />
           <Route path="/tournaments" element={<Tournaments />} />
           <Route path="/booking/:id" element={<Booking />} />
+          <Route path="/payment" element={<Payment />} />
           <Route path="/my-bookings" element={<MyBookings />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login />} />

@@ -1,4 +1,8 @@
+import { useNavigate } from 'react-router-dom';
+
 const Explore = () => {
+    const navigate = useNavigate();
+
     // This would come from your API in a real app
     const turfs = [
         {
@@ -65,7 +69,10 @@ const Explore = () => {
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <span className="text-[#727af9] font-semibold">₹{turf.price}/hr</span>
-                                    <button className="bg-[#727af9] text-white px-4 py-2 rounded-full hover:bg-[#5457E5] transition-colors duration-300">
+                                    <button 
+                                        className="bg-[#727af9] text-white px-4 py-2 rounded-full hover:bg-[#5457E5] transition-colors duration-300"
+                                        onClick={() => navigate(`/booking/${turf.id}`)}
+                                    >
                                         Book Now
                                     </button>
                                 </div>

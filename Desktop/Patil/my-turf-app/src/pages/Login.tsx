@@ -52,7 +52,7 @@ const Login = () => {
 
             {/* Right side form */}
             <div className="flex-1 flex items-center justify-center p-8">
-                <div className="w-full max-w-[400px] bg-white rounded-3xl p-8 shadow-xl">
+                <div className="w-full bg-white rounded-3xl p-8 shadow-xl">
                     <div className="text-center mb-10">
                         <h1 className="text-3xl font-bold text-[#1f1f1f] mb-2">Welcome Back!</h1>
                         <p className="text-gray-600">Please enter your details to sign in</p>
