@@ -1,4 +1,8 @@
+import { useNavigate } from 'react-router-dom';
+
 const Tournaments = () => {
+  const navigate = useNavigate();
+
   // Mock tournament data
   const tournaments = [
     {
@@ -67,17 +71,20 @@ const Tournaments = () => {
             <h1 className="text-[32px] font-semibold text-[#1f1f1f]">Tournaments</h1>
             <p className="text-gray-600">Find and join exciting sports tournaments</p>
           </div>
-          <button className="px-6 py-2.5 bg-[#1f1f1f] text-white rounded-full hover:bg-black/80 transition-colors">
+          <button 
+            onClick={() => navigate('/tournaments/create')}
+            className="px-6 py-2.5 bg-[#1f1f1f] text-white rounded-full hover:bg-black/80 transition-colors"
+          >
             Create Tournament
           </button>
         </div>
 
         {/* Tournaments Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {tournaments.map((tournament) => (
             <div key={tournament.id} className="bg-white rounded-3xl overflow-hidden shadow-xl">
-              <div className="flex">
-                <div className="w-[280px] relative">
+              <div className="flex flex-col">
+                <div className="w-full h-[200px] relative">
                   <img
                     src={tournament.image}
                     alt={tournament.name}

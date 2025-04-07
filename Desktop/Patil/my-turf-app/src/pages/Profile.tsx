@@ -116,7 +116,7 @@ const Profile = () => {
                     Edit Profile
                   </button>
                   <button className="px-6 py-2.5 border border-gray-200 text-gray-700 rounded-full hover:bg-gray-50 transition-colors">
-                    Settings
+                    Logout
                   </button>
                 </div>
               </div>

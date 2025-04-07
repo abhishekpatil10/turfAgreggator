@@ -16,6 +16,7 @@ import NotFound from "../pages/NotFound";
 import Membership from "../pages/Membership";
 import Tournaments from "../pages/tournaments";
 import Payment from "../pages/Payment";
+import TournamentAction from "../pages/TournamentAction";
 const ScrollToTop = () => {
   const { pathname } = useLocation();
 
@@ -41,6 +42,7 @@ const AppRoutes = () => {
           <Route path="/explore" element={<Explore />} />
           <Route path="/membership" element={<Membership />} />
           <Route path="/tournaments" element={<Tournaments />} />
+          <Route path="/tournaments/create" element={<TournamentAction />} />
           <Route path="/booking/:id" element={<Booking />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/my-bookings" element={<MyBookings />} />
