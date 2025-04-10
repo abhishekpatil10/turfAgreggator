@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
   const isActive = (path: string) => {
     return location.pathname.startsWith(path) || 
-           (path === "/explore" && location.pathname.includes("booking"));
+           (path === "/explore" && location.pathname.includes("turf"));
   };
 
   const getActiveClass = (path: string) => {

@@ -2,27 +2,24 @@ const MyBookings = () => {
   const mockBookings = [
     {
       id: 1,
-      title: "Tennis Court Booking",
+      title: "Pickleball Court 1",
       date: "2024-03-20 14:00",
-      description: "Court 3 - 1 hour session",
-      image:
-        "https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?w=300",
+      description: "Court 1 - 1 hour session",
+      image: "https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?w=300",
     },
     {
       id: 2,
-      title: "Swimming Pool Lane",
+      title: "Pickleball Court 2",
       date: "2024-03-22 10:00",
-      description: "Lane 4 - 45 minute session",
-      image:
-        "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=300",
+      description: "Court 2 - 45 minute session",
+      image: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=300",
     },
     {
       id: 3,
-      title: "Gym Session",
+      title: "Pickleball Court 3",
       date: "2024-03-23 16:00",
-      description: "General gym access - 2 hours",
-      image:
-        "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300",
+      description: "Court 3 - 2 hours",
+      image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300",
     },
     {
       id: 4,
@@ -82,7 +79,9 @@ const MyBookings = () => {
       <div className="max-w-7xl mx-auto px-6 py-8 pt-32">
         <h1 className="text-2xl font-bold mb-6">My Bookings</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {mockBookings.map((booking) => (
+          {mockBookings
+            .filter(booking => booking.title.toLowerCase().includes('pickleball'))
+            .map((booking) => (
             <div
               key={booking.id}
               className="group border rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 bg-white"

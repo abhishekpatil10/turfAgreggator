@@ -43,7 +43,7 @@ const AppRoutes = () => {
           <Route path="/membership" element={<Membership />} />
           <Route path="/tournaments" element={<Tournaments />} />
           <Route path="/tournaments/create" element={<TournamentAction />} />
-          <Route path="/booking/:id" element={<Booking />} />
+          <Route path="/turf/:id" element={<Booking />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/my-bookings" element={<MyBookings />} />
           <Route path="/profile" element={<Profile />} />
