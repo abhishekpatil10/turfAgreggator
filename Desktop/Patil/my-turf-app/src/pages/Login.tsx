@@ -39,14 +39,14 @@ const Login = () => {
             {/* Left side illustration */}
             <div className="w-1/2 bg-[#727af9] hidden lg:flex flex-col lg:items-center lg:justify-center gap-8">
                 <img 
-                    src="https://placehold.co/200x80?text=Company+Logo" 
+                    src="https://cdn-icons-png.flaticon.com/512/2721/2721723.png" 
                     alt="Company logo" 
-                    className="max-w-[200px] h-auto"
+                    className="w-[200px] h-[80px] object-contain"
                 />
                 <img 
-                    src="https://placehold.co/600x400?text=Login+Illustration" 
+                    src="https://img.freepik.com/free-vector/mobile-login-concept-illustration_114360-83.jpg" 
                     alt="Login illustration" 
-                    className="max-w-[80%] h-auto"
+                    className="w-[600px] h-[400px] object-contain"
                 />
             </div>
 

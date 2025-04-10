@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { FaUserAlt, FaBuilding, FaCheckCircle, FaUsers, FaTrophy, FaStore } from 'react-icons/fa';
+import { FaUserAlt, FaBuilding, FaCheckCircle, FaUsers, FaTrophy } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-type UserRole = 'PLAYER' | 'TURF_OWNER' | 'VENDOR' | null;
+type UserRole = 'PLAYER' | 'TURF_OWNER' | null;
 
 interface BaseFormData {
   email: string;
@@ -18,16 +18,12 @@ interface TurfOwnerFormData extends BaseFormData {
   businessName: string;
 }
 
-interface VendorFormData extends BaseFormData {
-  businessName: string;
-}
-
 const Register = () => {
     const navigate = useNavigate();
     const [step, setStep] = useState(1);
     const [selectedRole, setSelectedRole] = useState<UserRole>(null);
-    const [formData, setFormData] = useState<PlayerFormData | TurfOwnerFormData | VendorFormData | null>(null);
-    const [errors, setErrors] = useState<Partial<PlayerFormData & TurfOwnerFormData & VendorFormData>>({});
+    const [formData, setFormData] = useState<PlayerFormData | TurfOwnerFormData | null>(null);
+    const [errors, setErrors] = useState<Partial<PlayerFormData & TurfOwnerFormData>>({});
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
@@ -50,18 +46,11 @@ const Register = () => {
                 phone: '',
                 password: '',
             } as TurfOwnerFormData);
-        } else if (role === 'VENDOR') {
-            setFormData({
-                businessName: '',
-                email: '',
-                phone: '',
-                password: '',
-            } as VendorFormData);
         }
     };
 
     const validateForm = () => {
-        const newErrors: Partial<PlayerFormData & TurfOwnerFormData & VendorFormData> = {};
+        const newErrors: Partial<PlayerFormData & TurfOwnerFormData> = {};
         
         // Player-specific validations
         if (selectedRole === 'PLAYER' && !(formData as PlayerFormData)?.fullName?.trim()) {
@@ -70,11 +59,6 @@ const Register = () => {
 
         // Turf owner specific validation
         if (selectedRole === 'TURF_OWNER' && !(formData as TurfOwnerFormData)?.businessName?.trim()) {
-            newErrors.businessName = "Business name is required";
-        }
-
-        // Vendor specific validation
-        if (selectedRole === 'VENDOR' && !(formData as VendorFormData)?.businessName?.trim()) {
             newErrors.businessName = "Business name is required";
         }
 
@@ -226,8 +210,8 @@ const Register = () => {
                                         <FaUserAlt className="w-6 h-6 text-[#727af9] group-hover:text-white" />
                                     </div>
                                     <div className="text-left">
-                                        <h2 className="text-xl font-semibold text-[#1f1f1f] mb-1">Find a Court/Turf</h2>
-                                        <p className="text-gray-600">Book and play at available turfs and courts</p>
+                                        <h2 className="text-xl font-semibold text-[#1f1f1f] mb-1">Find a Turf</h2>
+                                        <p className="text-gray-600">Book and play at available turfs</p>
                                     </div>
                                 </button>
 
@@ -239,21 +223,8 @@ const Register = () => {
                                         <FaBuilding className="w-6 h-6 text-[#727af9] group-hover:text-white" />
                                     </div>
                                     <div className="text-left">
-                                        <h2 className="text-xl font-semibold text-[#1f1f1f] mb-1">List Your Turf/Court</h2>
-                                        <p className="text-gray-600">Register as a turf or court owner</p>
-                                    </div>
-                                </button>
-
-                                <button
-                                    onClick={() => handleRoleSelect('VENDOR')}
-                                    className="w-full p-6 border-2 border-gray-200 rounded-xl hover:border-[#727af9] transition-all duration-300 flex items-start group bg-white"
-                                >
-                                    <div className="mr-4 p-3 bg-[#727af9]/10 rounded-lg group-hover:bg-[#727af9] transition-colors">
-                                        <FaStore className="w-6 h-6 text-[#727af9] group-hover:text-white" />
-                                    </div>
-                                    <div className="text-left">
-                                        <h2 className="text-xl font-semibold text-[#1f1f1f] mb-1">Register as Vendor</h2>
-                                        <p className="text-gray-600">List your sports equipment and services</p>
+                                        <h2 className="text-xl font-semibold text-[#1f1f1f] mb-1">List Your Turf</h2>
+                                        <p className="text-gray-600">Register as a turf owner</p>
                                     </div>
                                 </button>
 
@@ -308,26 +279,6 @@ const Register = () => {
                                                 ...formData,
                                                 businessName: e.target.value
                                             } as TurfOwnerFormData)}
-                                            className="w-full px-4 py-3 rounded-lg border bg-white text-[#1f1f1f] border-gray-200 focus:outline-none focus:border-[#727af9] transition-all duration-200"
-                                        />
-                                        {errors.businessName && <p className="mt-1 text-sm text-red-500">{errors.businessName}</p>}
-                                    </div>
-                                )}
-
-                                {selectedRole === 'VENDOR' && (
-                                    <div>
-                                        <label htmlFor="businessName" className="block text-sm font-medium text-gray-600 mb-1">
-                                            Business Name *
-                                        </label>
-                                        <input
-                                            type="text"
-                                            id="businessName"
-                                            placeholder="Enter your business name"
-                                            value={(formData as VendorFormData).businessName || ''}
-                                            onChange={(e) => setFormData({
-                                                ...formData,
-                                                businessName: e.target.value
-                                            } as VendorFormData)}
                                             className="w-full px-4 py-3 rounded-lg border bg-white text-[#1f1f1f] border-gray-200 focus:outline-none focus:border-[#727af9] transition-all duration-200"
                                         />
                                         {errors.businessName && <p className="mt-1 text-sm text-red-500">{errors.businessName}</p>}
@@ -461,9 +412,7 @@ const Register = () => {
                                     <p className="text-gray-600">
                                         {selectedRole === 'PLAYER' 
                                             ? "Welcome to our platform!" 
-                                            : selectedRole === 'TURF_OWNER'
-                                            ? "Welcome! You can now start listing your turfs."
-                                            : "Welcome! You can now start listing your services."}
+                                            : "Welcome! You can now start listing your turfs."}
                                     </p>
                                 </div>
                             )}
