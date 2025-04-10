@@ -14,9 +14,11 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import NotFound from "../pages/NotFound";
 import Membership from "../pages/Membership";
-import Tournaments from "../pages/tournaments";
+import Tournaments from "../pages/Tournaments";
 import Payment from "../pages/Payment";
 import TournamentAction from "../pages/TournamentAction";
+import Vendors from "../pages/Vendors";
+import VendorDetail from "../pages/VendorDetails";
 const ScrollToTop = () => {
   const { pathname } = useLocation();
 
@@ -44,6 +46,8 @@ const AppRoutes = () => {
           <Route path="/tournaments" element={<Tournaments />} />
           <Route path="/tournaments/create" element={<TournamentAction />} />
           <Route path="/turf/:id" element={<Booking />} />
+          <Route path="/vendors" element={<Vendors />} />
+          <Route path="/vendor/:id" element={<VendorDetail />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/my-bookings" element={<MyBookings />} />
           <Route path="/profile" element={<Profile />} />
