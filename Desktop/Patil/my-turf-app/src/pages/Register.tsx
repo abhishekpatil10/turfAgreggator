@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { FaUserAlt, FaBuilding, FaCheckCircle, FaUsers, FaTrophy } from 'react-icons/fa';
+import { FaUserAlt, FaBuilding, FaCheckCircle, FaUsers, FaTrophy, FaStore } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-type UserRole = 'PLAYER' | 'TURF_OWNER' | null;
+type UserRole = 'PLAYER' | 'TURF_OWNER' | 'VENDOR' | null;
 
 interface BaseFormData {
   email: string;
@@ -228,6 +228,19 @@ const Register = () => {
                                     </div>
                                 </button>
 
+                                <button
+                                    onClick={() => handleRoleSelect('VENDOR')}
+                                    className="w-full p-6 border-2 border-gray-200 rounded-xl hover:border-[#727af9] transition-all duration-300 flex items-start group bg-white"
+                                >
+                                    <div className="mr-4 p-3 bg-[#727af9]/10 rounded-lg group-hover:bg-[#727af9] transition-colors">
+                                        <FaStore className="w-6 h-6 text-[#727af9] group-hover:text-white" />
+                                    </div>
+                                    <div className="text-left">
+                                        <h2 className="text-xl font-semibold text-[#1f1f1f] mb-1">Register as Vendor</h2>
+                                        <p className="text-gray-600">Sell equipment and accessories</p>
+                                    </div>
+                                </button>
+
                                 <div className="text-center mt-8">
                                     <p className="text-gray-600">
                                         Already have an account?{' '}
@@ -265,7 +278,7 @@ const Register = () => {
                                     </div>
                                 )}
 
-                                {selectedRole === 'TURF_OWNER' && (
+                                {(selectedRole === 'TURF_OWNER' || selectedRole === 'VENDOR') && (
                                     <div>
                                         <label htmlFor="businessName" className="block text-sm font-medium text-gray-600 mb-1">
                                             Business Name *
@@ -412,7 +425,9 @@ const Register = () => {
                                     <p className="text-gray-600">
                                         {selectedRole === 'PLAYER' 
                                             ? "Welcome to our platform!" 
-                                            : "Welcome! You can now start listing your turfs."}
+                                            : selectedRole === 'TURF_OWNER'
+                                            ? "Welcome! You can now start listing your turfs."
+                                            : "Welcome! You can now start selling equipment and accessories."}
                                     </p>
                                 </div>
                             )}

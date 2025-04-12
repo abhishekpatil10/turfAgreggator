@@ -1,7 +1,19 @@
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const Tournaments = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // @ts-expect-error - AOS is imported via CDN and types are not available
+    AOS.init({
+      duration: 1000,
+      once: true,
+      easing: 'ease-out'
+    });
+  }, []);
 
   // Mock tournament data
   const tournaments = [
@@ -66,7 +78,7 @@ const Tournaments = () => {
     <div className="min-h-screen bg-gradient-to-br from-[#727af9]/20 to-pink-100/20">
       <div className="max-w-7xl mx-auto px-6 py-8 pt-32">
         {/* Header Section */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between items-center mb-8" data-aos="fade-down">
           <div>
             <h1 className="text-[32px] font-semibold text-[#1f1f1f]">Tournaments</h1>
             <p className="text-gray-600">Find and join exciting sports tournaments</p>
@@ -74,6 +86,7 @@ const Tournaments = () => {
           <button 
             onClick={() => navigate('/tournaments/create')}
             className="px-6 py-2.5 bg-[#1f1f1f] text-white rounded-full hover:bg-black/80 transition-colors"
+            data-aos="fade-left"
           >
             Create Tournament
           </button>
@@ -81,8 +94,13 @@ const Tournaments = () => {
 
         {/* Tournaments Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {tournaments.map((tournament) => (
-            <div key={tournament.id} className="bg-white rounded-3xl overflow-hidden shadow-xl">
+          {tournaments.map((tournament, index) => (
+            <div 
+              key={tournament.id} 
+              className="bg-white rounded-3xl overflow-hidden shadow-xl"
+              data-aos="fade-up"
+              data-aos-delay={index * 100}
+            >
               <div className="flex flex-col">
                 <div className="w-full h-[200px] relative">
                   <img

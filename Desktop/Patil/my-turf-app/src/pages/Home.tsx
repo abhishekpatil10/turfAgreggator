@@ -1,12 +1,33 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Gallery3D from '../components/Gallery3D';
 
+// Add type for content tabs
+type TabType = 'Courts' | 'Training' | 'Community' | 'Amenities';
+
 const Home = () => {
-    const [selectedTab, setSelectedTab] = useState('Courts');
+    const navigate = useNavigate();
+    const [selectedTab, setSelectedTab] = useState<TabType>('Courts');
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [activeIndex, setActiveIndex] = useState(0);
 
-    const content = {
+    // Initialize AOS
+    useEffect(() => {
+        // @ts-ignore
+        AOS.init({
+            duration: 1000,
+            once: true,
+            easing: 'ease-out'
+        });
+    }, []);
+
+    // Type the content object
+    const content: Record<TabType, {
+        title: string;
+        description: string;
+        images: string[];
+        alt: string;
+    }> = {
         Courts: {
             title: "6 Professional\nPickleball Courts",
             description: "Experience the thrill of pickleball on our 6 professionally designed courts. Each court features premium surfaces, proper line markings, and tournament-grade nets. Perfect for both casual players and competitive matches, our courts provide the ideal environment for this fast-growing sport.",
@@ -49,33 +70,39 @@ const Home = () => {
         }
     };
 
+    // Update galleryItems type
     const galleryItems = [
         {
-            type: 'image' as const,
+            type: 'image',
             url: 'https://images.unsplash.com/photo-1576633587382-13ddf37b1fc1?q=80&w=2070',
             title: 'Professional Pickleball Match'
         },
         {
-            type: 'video' as const,
+            type: 'video',
             url: 'https://www.youtube.com/embed/fTvPYdKZqO0?si=PxcHCpjw6RUpB0RB',
             title: 'Pickleball Basic Rules'
         },
         {
-            type: 'image' as const,
+            type: 'image',
             url: 'https://images.unsplash.com/photo-1599474924187-334a4ae5bd3c?q=80&w=2070',
             title: 'Court Dimensions'
         },
         {
-            type: 'image' as const,
+            type: 'image',
             url: 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?q=80&w=2070',
             title: 'Scoring Rules'
         },
         {
-            type: 'video' as const,
+            type: 'video',
             url: 'https://www.youtube.com/embed/zc1gBxurrCA',
             title: 'Advanced Techniques'
         }
-    ] as const;
+    ];
+
+    // Update the map functions with proper types
+    const handleImageIndicatorClick = (index: number) => {
+        setCurrentImageIndex(index);
+    };
 
     return (
         <div className="bg-white min-h-screen relative">
@@ -97,7 +124,7 @@ const Home = () => {
                     {/* Main Content Area */}
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pt-32 sm:pt-24 md:pt-32">
                         {/* Tags */}
-                        <div className="flex flex-wrap gap-2 sm:gap-3 mb-4">
+                        <div className="flex flex-wrap gap-2 sm:gap-3 mb-4" data-aos="fade-down" data-aos-delay="200">
                             {['Pickleball', 'Training', 'Tournaments', 'Social'].map((tag) => (
                                 <span key={tag} className="px-4 sm:px-6 py-1.5 sm:py-2 bg-white/20 rounded-full text-white text-sm sm:text-base">
                                     {tag}
@@ -106,7 +133,7 @@ const Home = () => {
                         </div>
 
                         {/* Heading and Description */}
-                        <div className="max-w-3xl">
+                        <div className="max-w-3xl" data-aos="fade-up" data-aos-delay="400">
                             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold text-white mb-3 sm:mb-4 leading-tight">
                                 Premium Pickleball<br />Experience
                             </h1>
@@ -122,7 +149,9 @@ const Home = () => {
                         </div>
 
                         {/* Featured Card */}
-                        <div className="mt-8 sm:mt-0 sm:absolute sm:top-32 sm:right-8 w-full sm:w-[375px] bg-white/5 backdrop-blur-md border border-white/10 p-4 rounded-2xl text-white shadow-lg">
+                        <div className="mt-8 sm:mt-0 sm:absolute sm:top-32 sm:right-8 w-full sm:w-[375px] bg-white/5 backdrop-blur-md border border-white/10 p-4 rounded-2xl text-white shadow-lg"
+                            data-aos="fade-left"
+                            data-aos-delay="600">
                             <div className="relative">
                                 <img
                                     src="https://images.unsplash.com/photo-1619631428091-1eaa03c3bdf1?q=80&w=2070"
@@ -163,82 +192,123 @@ const Home = () => {
             </div>
 
             {/* About Section */}
-            <div className="relative z-20 -top-5 bg-gray-100 rounded-2xl">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-12 md:py-20">
+            <div className="relative z-20 -top-5">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-16 md:py-24">
                     {/* About Content */}
-                    <div className="mb-12 md:mb-20">
-                        <div className="text-gray-500 text-sm md:text-base mb-2 md:mb-4">About</div>
-                        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal mb-3 md:mb-4">
-                            We offer a premium pickleball <span className="text-gray-700">experience</span>
-                        </h2>
-                        <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 max-w-4xl leading-relaxed">
-                            for all skill levels, with professional courts, expert instruction, and simple booking. Whether for recreation or competition, create lasting memories on the court.
-                        </p>
-                    </div>
+                    <div className="relative">
+                        {/* Background Elements */}
+                        <div className="absolute -top-10 -left-4 w-72 h-72 bg-indigo-50 rounded-full filter blur-3xl opacity-50"></div>
+                        <div className="absolute -bottom-10 -right-4 w-72 h-72 bg-purple-50 rounded-full filter blur-3xl opacity-50"></div>
+                        
+                        {/* Content Grid */}
+                        <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+                            {/* Left Column - Text Content */}
+                            <div className="space-y-8" data-aos="fade-right">
+                                <div className="inline-block">
+                                    <span className="bg-indigo-50 text-indigo-700 px-4 py-2 rounded-full text-sm font-medium">
+                                        About Us
+                                    </span>
+                                </div>
+                                
+                                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                                    Experience the 
+                                    <span className="relative inline-block px-2">
+                                        <span className="absolute inset-0 transform -skew-x-12 bg-indigo-100"></span>
+                                        <span className="relative">thrill</span>
+                                    </span>
+                                    of Pickleball
+                                </h2>
+                                
+                                <p className="text-xl text-gray-600 leading-relaxed">
+                                    Join our vibrant community where passion meets play. Whether you're a beginner or a seasoned player, our world-class facilities and expert instruction create the perfect environment for your pickleball journey.
+                                </p>
 
-                    {/* Images and Features Section */}
-                    <div className="flex flex-col md:flex-row items-start md:items-end gap-6 md:gap-8 mb-12 md:mb-20">
-                        {/* Images Section */}
-                        <div className="flex gap-4 md:gap-6 w-full md:flex-1">
-                            <div className="w-1/3 md:w-1/4">
-                                <img 
-                                    src="https://images.unsplash.com/photo-1592919505780-303950717480?q=80&w=1000"
-                                    alt="Pickleball court with players"
-                                    className="w-full h-32 sm:h-36 md:h-40 object-cover rounded-2xl md:rounded-3xl"
-                                />
+                                {/* Stats Grid */}
+                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 py-8">
+                                    <div className="text-center">
+                                        <div className="text-3xl font-bold text-indigo-600">6+</div>
+                                        <div className="text-sm text-gray-500 mt-1">Pro Courts</div>
+                                    </div>
+                                    <div className="text-center">
+                                        <div className="text-3xl font-bold text-indigo-600">500+</div>
+                                        <div className="text-sm text-gray-500 mt-1">Members</div>
+                                    </div>
+                                    <div className="text-center">
+                                        <div className="text-3xl font-bold text-indigo-600">50+</div>
+                                        <div className="text-sm text-gray-500 mt-1">Weekly Events</div>
+                                    </div>
+                                    <div className="text-center">
+                                        <div className="text-3xl font-bold text-indigo-600">12+</div>
+                                        <div className="text-sm text-gray-500 mt-1">Trainers</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="w-1/3 md:w-1/4">
-                                <img 
-                                    src="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?q=80&w=1000"
-                                    alt="Pickleball instructor teaching"
-                                    className="w-full h-32 sm:h-36 md:h-40 object-cover rounded-2xl md:rounded-3xl"
-                                />
+
+                            {/* Right Column - Features Grid */}
+                            <div className="grid grid-cols-2 gap-6">
+                                {[
+                                    {
+                                        icon: "🎯",
+                                        title: "Skill Development",
+                                        description: "Structured training programs for all skill levels"
+                                    },
+                                    {
+                                        icon: "🤝",
+                                        title: "Community Events",
+                                        description: "Regular tournaments and social mixers"
+                                    },
+                                    {
+                                        icon: "🏆",
+                                        title: "Pro Equipment",
+                                        description: "Access to premium gear and facilities"
+                                    },
+                                    {
+                                        icon: "📱",
+                                        title: "Easy Booking",
+                                        description: "Seamless court reservations"
+                                    }
+                                ].map((feature, index) => (
+                                    <div 
+                                        key={index}
+                                        className="group relative bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                                        data-aos="fade-up"
+                                        data-aos-delay={index * 100}
+                                    >
+                                        <div className="absolute -top-4 -right-4 w-20 h-20 bg-indigo-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                        <div className="relative">
+                                            <span className="text-3xl mb-4 block">{feature.icon}</span>
+                                            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                                                {feature.title}
+                                            </h3>
+                                            <p className="text-gray-600 text-sm">
+                                                {feature.description}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
 
-                        {/* Feature Icons */}
-                        <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 w-full">
-                            <div className="flex items-center gap-2 sm:flex-col sm:gap-3 group hover:scale-105 transition-transform w-[45%] sm:w-auto">
-                                <div className="bg-white p-2.5 sm:p-3 md:p-4 rounded-xl group-hover:bg-gray-100 transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-600 group-hover:text-gray-800 transition-colors">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                                <p className="text-sm font-medium text-gray-600 group-hover:text-gray-800 transition-colors">Book</p>
-                            </div>
-                            <div className="flex items-center gap-2 sm:flex-col sm:gap-3 group hover:scale-105 transition-transform w-[45%] sm:w-auto">
-                                <div className="bg-white p-2.5 sm:p-3 md:p-4 rounded-xl group-hover:bg-gray-100 transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-600 group-hover:text-gray-800 transition-colors">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085.711l-.108.054a9 9 0 00-6.208.682L3 4.5M3 15V4.5" />
-                                    </svg>
-                                </div>
-                                <p className="text-sm font-medium text-gray-600 group-hover:text-gray-800 transition-colors">Train</p>
-                            </div>
-                            <div className="flex items-center gap-2 sm:flex-col sm:gap-3 group hover:scale-105 transition-transform w-[45%] sm:w-auto">
-                                <div className="bg-white p-2.5 sm:p-3 md:p-4 rounded-xl group-hover:bg-gray-100 transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-600 group-hover:text-gray-800 transition-colors">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-                                    </svg>
-                                </div>
-                                <p className="text-sm font-medium text-gray-600 group-hover:text-gray-800 transition-colors">Compete</p>
-                            </div>
-                            <div className="flex items-center gap-2 sm:flex-col sm:gap-3 group hover:scale-105 transition-transform w-[45%] sm:w-auto">
-                                <div className="bg-white p-2.5 sm:p-3 md:p-4 rounded-xl group-hover:bg-gray-100 transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-600 group-hover:text-gray-800 transition-colors">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                                <p className="text-sm font-medium text-gray-600 group-hover:text-gray-800 transition-colors">Courts</p>
-                            </div>
+                        {/* CTA Section */}
+                        <div className="mt-16 text-center">
+                            <button 
+                                onClick={() => navigate('/explore')} 
+                                className="bg-indigo-600 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-indigo-700 transition-colors inline-flex items-center gap-2"
+                            >
+                                Start Playing Today
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Course Features Section */}
-            <div className="max-w-7xl mx-auto relative z-20 -top-5 bg-white px-4 sm:px-6 md:px-8 py-12 md:py-20 rounded-2xl">
+            <div className="max-w-7xl mx-auto relative z-20 -top-5 bg-white px-4 sm:px-6 md:px-8 py-12 md:py-10 rounded-2xl">
                 {/* Navigation Pills */}
-                <div className="flex flex-wrap gap-2 sm:gap-3 mb-8 sm:mb-16">
+                <div className="flex flex-wrap gap-2 sm:gap-3 mb-8 sm:mb-16" data-aos="fade-down">
                     {['Courts', 'Training', 'Community', 'Amenities'].map((item) => (
                         <button
                             key={item}
@@ -246,7 +316,7 @@ const Home = () => {
                                 ${item === selectedTab 
                                     ? 'bg-black text-white' 
                                     : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
-                            onClick={() => setSelectedTab(item)}
+                            onClick={() => setSelectedTab(item as TabType)}
                         >
                             {item}
                         </button>
@@ -255,7 +325,7 @@ const Home = () => {
 
                 {/* Content Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-20">
-                    <div>
+                    <div data-aos="fade-right">
                         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] leading-tight font-medium mb-4 lg:mb-6">
                             {content[selectedTab].title}
                         </h2>
@@ -272,7 +342,7 @@ const Home = () => {
                                         ${index === currentImageIndex 
                                             ? 'w-6 sm:w-8 bg-black' 
                                             : 'bg-gray-200'}`}
-                                    onClick={() => setCurrentImageIndex(index)}
+                                    onClick={() => handleImageIndicatorClick(index)}
                                     aria-label={`Go to slide ${index + 1}`}
                                 />
                             ))}
@@ -280,7 +350,7 @@ const Home = () => {
                     </div>
 
                     {/* Image Carousel */}
-                    <div className="relative">
+                    <div className="relative" data-aos="fade-left">
                         {/* Main Image */}
                         <div className="mb-4">
                             <img
@@ -295,9 +365,7 @@ const Home = () => {
                             {/* Navigation Arrows */}
                             <button 
                                 className="w-8 h-8 sm:w-9 sm:h-9 lg:w-11 lg:h-11 rounded-full border border-gray-300 flex items-center justify-center hover:border-gray-400 transition-colors"
-                                onClick={() => setCurrentImageIndex((prev) => 
-                                    (prev - 1 + content[selectedTab].images.length) % content[selectedTab].images.length
-                                )}
+                                onClick={() => handleImageIndicatorClick((currentImageIndex - 1 + content[selectedTab].images.length) % content[selectedTab].images.length)}
                             >
                                 <span className="sr-only">Previous slide</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5">
@@ -306,9 +374,7 @@ const Home = () => {
                             </button>
                             <button 
                                 className="w-8 h-8 sm:w-9 sm:h-9 lg:w-11 lg:h-11 rounded-full border border-gray-300 flex items-center justify-center hover:border-gray-400 transition-colors"
-                                onClick={() => setCurrentImageIndex((prev) => 
-                                    (prev + 1) % content[selectedTab].images.length
-                                )}
+                                onClick={() => handleImageIndicatorClick((currentImageIndex + 1) % content[selectedTab].images.length)}
                             >
                                 <span className="sr-only">Next slide</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5">
@@ -373,14 +439,16 @@ const Home = () => {
 
             {/* Rules & Regulations Section */}
             <div className="max-w-7xl mx-auto relative z-20 -top-5 bg-gray-100 px-4 sm:px-6 md:px-8 py-12 md:py-20 rounded-2xl mb-12">
-                <div className="text-gray-500 text-sm md:text-base mb-2 md:mb-4">Rules & Regulations</div>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal mb-8 md:mb-12">
-                    Essential Pickleball <span className="text-gray-700">Guidelines</span>
-                </h2>
+                <div data-aos="fade-up">
+                    <div className="text-gray-500 text-sm md:text-base mb-2 md:mb-4">Rules & Regulations</div>
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal mb-8 md:mb-12">
+                        Essential Pickleball <span className="text-gray-700">Guidelines</span>
+                    </h2>
+                </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                     {/* Basic Rules */}
-                    <div className="bg-white p-6 rounded-2xl shadow-sm">
+                    <div className="bg-white p-6 rounded-2xl shadow-sm" data-aos="fade-up" data-aos-delay="100">
                         <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                             <span className="text-2xl">📋</span> Basic Rules
                         </h3>
@@ -401,7 +469,7 @@ const Home = () => {
                     </div>
 
                     {/* Court Etiquette */}
-                    <div className="bg-white p-6 rounded-2xl shadow-sm">
+                    <div className="bg-white p-6 rounded-2xl shadow-sm" data-aos="fade-up" data-aos-delay="200">
                         <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                             <span className="text-2xl">🤝</span> Court Etiquette
                         </h3>
@@ -422,7 +490,7 @@ const Home = () => {
                     </div>
 
                     {/* Safety Guidelines */}
-                    <div className="bg-white p-6 rounded-2xl shadow-sm">
+                    <div className="bg-white p-6 rounded-2xl shadow-sm" data-aos="fade-up" data-aos-delay="300">
                         <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                             <span className="text-2xl">⚡</span> Safety Guidelines
                         </h3>
@@ -443,7 +511,7 @@ const Home = () => {
                     </div>
 
                     {/* Facility Rules */}
-                    <div className="bg-white p-6 rounded-2xl shadow-sm">
+                    <div className="bg-white p-6 rounded-2xl shadow-sm" data-aos="fade-up" data-aos-delay="400">
                         <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                             <span className="text-2xl">🏢</span> Facility Rules
                         </h3>
@@ -467,17 +535,19 @@ const Home = () => {
 
             {/* 3D Gallery Section */}
             <div className="max-w-7xl mx-auto relative z-20 -top-5 bg-white px-4 sm:px-6 md:px-8 py-12 md:py-20 rounded-2xl">
-                <div className="text-gray-500 text-sm md:text-base mb-2 md:mb-4">Gallery</div>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal mb-8 md:mb-12">
-                    Experience Pickleball in <span className="text-gray-700">3D</span>
-                </h2>
+                <div data-aos="fade-up">
+                    <div className="text-gray-500 text-sm md:text-base mb-2 md:mb-4">Gallery</div>
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal mb-8 md:mb-12">
+                        Experience Pickleball in <span className="text-gray-700">3D</span>
+                    </h2>
+                </div>
 
                 {/* Gallery Section */}
-                <div className="relative h-[60vh] bg-gray-100 rounded-2xl overflow-hidden">
+                <div className="relative h-[60vh] bg-gray-100 rounded-2xl overflow-hidden" data-aos="zoom-in">
                     <Gallery3D 
                         activeIndex={activeIndex} 
                         setActiveIndex={setActiveIndex}
-                        galleryItems={galleryItems}
+                        galleryItems={galleryItems as any}
                     />
                 </div>
             </div>

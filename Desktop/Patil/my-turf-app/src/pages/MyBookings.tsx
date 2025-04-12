@@ -1,3 +1,7 @@
+import { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 const MyBookings = () => {
   const mockBookings = [
     {
@@ -74,17 +78,29 @@ const MyBookings = () => {
         "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300",
     },
   ];
+
+  useEffect(() => {
+    // @ts-expect-error - AOS is imported via CDN and types are not available
+    AOS.init({
+      duration: 1000,
+      once: true,
+      easing: 'ease-out'
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#727af9]/20 to-pink-100/20">
       <div className="max-w-7xl mx-auto px-6 py-8 pt-32">
-        <h1 className="text-2xl font-bold mb-6">My Bookings</h1>
+        <h1 className="text-2xl font-bold mb-6" data-aos="fade-down">My Bookings</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {mockBookings
             .filter(booking => booking.title.toLowerCase().includes('pickleball'))
-            .map((booking) => (
+            .map((booking, index) => (
             <div
               key={booking.id}
               className="group border rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 bg-white"
+              data-aos="fade-up"
+              data-aos-delay={index * 100}
             >
               <div className="relative">
                 <img

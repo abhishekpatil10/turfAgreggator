@@ -9,7 +9,7 @@ interface GalleryItem {
 interface GalleryProps {
     activeIndex: number;
     setActiveIndex: (index: number) => void;
-    galleryItems: GalleryItem[];
+    galleryItems: readonly GalleryItem[];
 }
 
 const Gallery3D: React.FC<GalleryProps> = ({ activeIndex, setActiveIndex, galleryItems }) => {

@@ -1,3 +1,7 @@
+import { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 const Membership = () => {
   // Mock membership data
   const membershipData = {
@@ -21,14 +25,23 @@ const Membership = () => {
   // Add hasMembership state (you might want to get this from your actual auth/membership service)
   const hasMembership = false;
 
+  useEffect(() => {
+    // @ts-expect-error - AOS is imported via CDN and types are not available
+    AOS.init({
+      duration: 1000,
+      once: true,
+      easing: 'ease-out'
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#727af9]/20 to-pink-100/20">
       <div className="max-w-7xl mx-auto px-6 py-8 pt-32">
         {hasMembership ? (
           // Existing membership card code
-          <div className="bg-white rounded-3xl p-8 shadow-xl">
+          <div className="bg-white rounded-3xl p-8 shadow-xl" data-aos="fade-up">
             {/* Membership Header */}
-            <div className="flex items-start justify-between mb-8">
+            <div className="flex items-start justify-between mb-8" data-aos="fade-down">
               <div>
                 <h1 className="text-[32px] font-semibold text-[#1f1f1f] mb-2">
                   {membershipData.type} Membership
@@ -48,7 +61,7 @@ const Membership = () => {
             </div>
 
             {/* Stats Row */}
-            <div className="flex gap-6 mb-12">
+            <div className="flex gap-6 mb-12" data-aos="fade-up" data-aos-delay="200">
               <div className="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-2xl">
                 <div className="p-2 bg-blue-100 rounded-xl">
                   <svg
@@ -122,7 +135,7 @@ const Membership = () => {
 
             {/* Membership Details Grid */}
             <div className="grid grid-cols-2 gap-12">
-              <div>
+              <div data-aos="fade-right" data-aos-delay="300">
                 <h3 className="text-[#727af9] font-medium mb-4">
                   Membership Details
                 </h3>
@@ -139,7 +152,7 @@ const Membership = () => {
                   </p>
                 </div>
               </div>
-              <div>
+              <div data-aos="fade-left" data-aos-delay="300">
                 <h3 className="text-[#727af9] font-medium mb-4">
                   Membership Benefits
                 </h3>
@@ -169,7 +182,7 @@ const Membership = () => {
         ) : (
           // New membership plans section
           <div className="space-y-8">
-            <div className="text-center">
+            <div className="text-center" data-aos="fade-down">
               <h1 className="text-[32px] font-semibold text-[#1f1f1f] mb-3">
                 Choose Your Membership Plan
               </h1>
@@ -180,7 +193,7 @@ const Membership = () => {
             
             <div className="grid md:grid-cols-3 gap-8">
               {/* Basic Plan */}
-              <div className="bg-white rounded-3xl p-8 shadow-xl">
+              <div className="bg-white rounded-3xl p-8 shadow-xl" data-aos="fade-up" data-aos-delay="100">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="p-3 bg-gray-100 rounded-xl">
                     <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -229,7 +242,8 @@ const Membership = () => {
               </div>
 
               {/* Premium Plan */}
-              <div className="bg-white rounded-3xl p-8 shadow-xl relative border-2 border-[#727af9]">
+              <div className="bg-white rounded-3xl p-8 shadow-xl relative border-2 border-[#727af9]" 
+                data-aos="fade-up" data-aos-delay="200">
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#727af9] text-white px-4 py-1 rounded-full text-sm">
                   Most Popular
                 </div>
@@ -281,7 +295,7 @@ const Membership = () => {
               </div>
 
               {/* Pro Plan */}
-              <div className="bg-white rounded-3xl p-8 shadow-xl">
+              <div className="bg-white rounded-3xl p-8 shadow-xl" data-aos="fade-up" data-aos-delay="300">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="p-3 bg-purple-100 rounded-xl">
                     <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
