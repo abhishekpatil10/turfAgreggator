@@ -97,11 +97,11 @@ const Tournaments = () => {
           {tournaments.map((tournament, index) => (
             <div 
               key={tournament.id} 
-              className="bg-white rounded-3xl overflow-hidden shadow-xl"
+              className="bg-white rounded-3xl overflow-hidden shadow-xl h-full"
               data-aos="fade-up"
               data-aos-delay={index * 100}
             >
-              <div className="flex flex-col">
+              <div className="flex flex-col h-full">
                 <div className="w-full h-[200px] relative">
                   <img
                     src={tournament.image}
@@ -109,7 +109,7 @@ const Tournaments = () => {
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                 </div>
-                <div className="flex-grow p-6">
+                <div className="flex-grow p-6 flex flex-col">
                   <div className="flex justify-between items-start gap-4">
                     <h2 className="text-xl font-semibold text-[#1f1f1f]">{tournament.name}</h2>
                     {tournament.status === "Registration Open" ? (
@@ -122,7 +122,7 @@ const Tournaments = () => {
                       </span>
                     )}
                   </div>
-                  <div className="mt-4 space-y-2.5">
+                  <div className="mt-4 space-y-2.5 flex-grow">
                     <p className="flex items-center gap-2 text-gray-600">
                       <span className="w-5 text-center">🏆</span>
                       <span>Prize Pool: {tournament.prize}</span>
@@ -140,7 +140,7 @@ const Tournaments = () => {
                       <span>{tournament.location}</span>
                     </p>
                   </div>
-                  <button className="mt-6 w-full px-6 py-2.5 bg-[#727af9] text-white rounded-full hover:bg-[#5c64d8] transition-colors">
+                  <button className="w-full px-6 py-2.5 bg-[#727af9] text-white rounded-full hover:bg-[#5c64d8] transition-colors mt-6">
                     View Details
                   </button>
                 </div>
